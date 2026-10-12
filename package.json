@@ -1,0 +1,12 @@
+{
+  "name": "@red-cup-engineering/model-tournament-service",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Selects a candidate only from validation evidence, then reports untouched holdout evidence without self-promotion.",
+  "exports": {
+    ".": "./src/tournament.mjs"
+  },
+  "scripts": {
+    "test": "node --test test/*.test.mjs"
+  }
+}
