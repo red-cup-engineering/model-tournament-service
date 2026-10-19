@@ -5,8 +5,7 @@
   "description": "Selects a candidate only from validation evidence, then reports untouched holdout evidence without self-promotion.",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/red-cup-engineering/financial-engineering-services-section.git",
-    "directory": "services/strategy-evaluation-services-section/services/model-tournament-service"
+    "url": "git+https://github.com/red-cup-engineering/model-tournament-service.git"
   },
   "exports": {
     ".": "./src/tournament.mjs"
