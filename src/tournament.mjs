@@ -1,6 +1,11 @@
-const finite = (value, label) => {
+// Accept actual finite numbers and nonempty numeric text (legacy suppliers may
+// serialize metrics as text), never null/boolean/array/object coercions.
+const finite = (value, label, { nonnegative = false } = {}) => {
+  if (typeof value !== "number" && (typeof value !== "string" || value.trim() === ""))
+    throw new TypeError(`${label}-invalid`);
   const number = Number(value);
-  if (!Number.isFinite(number) || Object.is(number, -0)) throw new TypeError(`${label}-invalid`);
+  if (!Number.isFinite(number) || Object.is(number, -0) || (nonnegative && number < 0))
+    throw new TypeError(`${label}-invalid`);
   return number;
 };
 
@@ -12,7 +17,7 @@ export function selectModelCandidate({ candidates, policy } = {}) {
     identifiers.add(candidate.id); actors.add(candidate.authorActor);
     const validation = finite(candidate.validation?.[policy.metric], "validation-metric");
     const holdout = finite(candidate.holdout?.[policy.metric], "holdout-metric");
-    const drawdown = finite(candidate.holdout?.maximumDrawdown ?? 0, "holdout-drawdown");
+    const drawdown = finite(candidate.holdout?.maximumDrawdown, "holdout-drawdown", { nonnegative: true });
     return Object.freeze({ ...candidate, validationMetric: validation, holdoutMetric: holdout, holdoutDrawdown: drawdown });
   });
   const ordered = [...admitted].sort((left, right) => {
@@ -20,7 +25,7 @@ export function selectModelCandidate({ candidates, policy } = {}) {
     return difference || left.id.localeCompare(right.id);
   });
   const selected = ordered[0];
-  const selectionPolicySatisfied = selected.holdoutDrawdown <= finite(policy.maximumHoldoutDrawdown, "maximum-holdout-drawdown");
+  const selectionPolicySatisfied = selected.holdoutDrawdown <= finite(policy.maximumHoldoutDrawdown, "maximum-holdout-drawdown", { nonnegative: true });
   return Object.freeze({
     type: "ModelTournamentResult",
     version: 1,
