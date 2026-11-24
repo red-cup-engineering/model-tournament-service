@@ -1,0 +1,26 @@
+{
+  "name": "@red-cup-engineering/model-tournament-service",
+  "version": "0.1.2",
+  "type": "module",
+  "description": "Selects a candidate only from validation evidence, then reports untouched holdout evidence without self-promotion.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/red-cup-engineering/model-tournament-service.git"
+  },
+  "exports": {
+    ".": "./src/tournament.mjs"
+  },
+  "private": false,
+  "files": [
+    "package.json",
+    "README*",
+    "LICENSE*",
+    "src"
+  ],
+  "license": "MIT",
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/561-group/.github/blob/main/TIPS.md"
+  },
+  "packageManager": "pnpm@11.19.0"
+}
